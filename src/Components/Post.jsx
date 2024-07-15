@@ -21,6 +21,7 @@ export default function Post({ fullName, job }) {
           Publicado há 1 hora.
         </time>
       </header>
+
       <main className={styles.postContent}>
         <p>Fala galeraa 👋</p>
         <p>
@@ -34,7 +35,15 @@ export default function Post({ fullName, job }) {
           </a>
         </p>
       </main>
-      <footer></footer>
+
+      <form className={styles.commentForm}>
+        <strong>Deixe seu feedback</strong>
+        <textarea placeholder="Deixe um comentário." />
+
+        <footer>
+          <button type="submit">Publicar</button>
+        </footer>
+      </form>
     </article>
   );
 }
