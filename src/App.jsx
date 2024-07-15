@@ -2,6 +2,7 @@ import Header from "./Components/Header";
 import Sidebar from "./Components/Sidebar";
 import styles from "./App.module.css";
 import "./global.css";
+import Post from "./Components/Post";
 
 export default function App() {
   return (
@@ -15,6 +16,10 @@ export default function App() {
           fullName="Filemom Viel Heck"
           job="Web Developer"
         />
+
+        <main>
+          <Post fullName="Filemom Viel Heck" job="Web Developer" />
+        </main>
       </main>
     </div>
   );
