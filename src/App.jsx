@@ -19,6 +19,7 @@ export default function App() {
 
         <main>
           <Post fullName="Filemom Viel Heck" job="Web Developer" />
+          <Post fullName="Filemom Viel Heck" job="Web Developer" />
         </main>
       </main>
     </div>
