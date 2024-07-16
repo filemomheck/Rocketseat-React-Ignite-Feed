@@ -1,12 +1,15 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
-import Avatar from "./Avatar";
-import styles from "./Post.module.css";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { useState } from "react";
+import Avatar from "./Avatar";
+import Comment from "./Comment";
+import styles from "./Post.module.css";
 
 export default function Post({ author, publishedAt, content }) {
-  // Data formatada (Intl JavaScript):
+  //
+  // Formatando data no Intl:
   const publishedDateFormatted = new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
     month: "long",
@@ -14,11 +17,37 @@ export default function Post({ author, publishedAt, content }) {
     minute: "2-digit",
   }).format(publishedAt);
 
+  //
   // Data formatada (relativa) para o post (date-fns):
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
     addSuffix: true,
   });
+
+  //
+  // Avisar quando acontecer uma alteração nos comentários:
+  const [comments, setComments] = useState(["Post muito bacana!!"]);
+
+  //
+  // Avisar quando criar um novo comentário:
+  const [newCommentText, setNewCommentText] = useState("");
+
+  //
+  // Funções que são disparadas através de ação do usuário, "handle":
+  function handleCreateNewComment() {
+    //
+    // Evitar redirecionamento:
+    event.preventDefault();
+    setNewCommentText("");
+
+    //
+    // Imutabilidade:
+    setComments([...comments, newCommentText]);
+  }
+
+  function handleNewCommentChange() {
+    setNewCommentText(event.target.value);
+  }
 
   return (
     <article className={styles.post}>
@@ -56,16 +85,25 @@ export default function Post({ author, publishedAt, content }) {
         })}
       </main>
 
-      <form className={styles.commentForm}>
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
-        <textarea placeholder="Deixe um comentário." />
+        <textarea
+          name="commentContent"
+          onChange={handleNewCommentChange}
+          value={newCommentText}
+          placeholder="Deixe um comentário."
+        />
 
         <footer>
           <button type="submit">Publicar</button>
         </footer>
       </form>
 
-      <div className={styles.commentList}>{/* <Comment /> */}</div>
+      <div className={styles.commentList}>
+        {comments.map((comment) => {
+          return <Comment content={comment} />;
+        })}
+      </div>
     </article>
   );
 }
