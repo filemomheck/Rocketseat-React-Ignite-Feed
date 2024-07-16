@@ -1,28 +1,60 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 import Avatar from "./Avatar";
 import styles from "./Post.module.css";
+import { formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
-export default function Post(props) {
+export default function Post({ author, publishedAt, content }) {
+  // Data formatada (Intl JavaScript):
+  const publishedDateFormatted = new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(publishedAt);
+
+  // Data formatada (relativa) para o post (date-fns):
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  });
+
   return (
     <article className={styles.post}>
       <header className={styles.postHeader}>
         <div className={styles.postAuthor}>
-          <Avatar src="s" />
+          <Avatar src={author.avatarUrl} />
           <div className={styles.authorDetails}>
-            <strong>s</strong>
-            <span>s</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
+
         <time
           className={styles.postTimesStamp}
-          dateTime="2024-07-14 21:00:00"
-          title="14 de Julho de 2024 as 21h00"
+          dateTime={publishedAt.toISOString()}
+          title={publishedDateFormatted}
         >
-          Publicado há 1 hora.
+          {publishedDateRelativeToNow}
         </time>
       </header>
 
-      <main className={styles.postContent}></main>
+      <main className={styles.postContent}>
+        {/* Verificando se o texto é paragráfo ou conteúdo, e retornando elemento HTML */}
+
+        {content.map((line) => {
+          if (line.type === "paragraph") {
+            return <p>{line.content}</p>;
+          } else if (line.type === "link") {
+            return (
+              <p>
+                <a href="#">{line.content}</a>
+              </p>
+            );
+          }
+        })}
+      </main>
 
       <form className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>

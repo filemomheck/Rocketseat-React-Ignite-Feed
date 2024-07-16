@@ -33,7 +33,7 @@ const posts = [
       role: "Web Developer",
     },
     content: [
-      { type: "paragraph", content: "Fala galeraa 👋" },
+      { type: "paragraph", content: "Bom diaaaa turma" },
       {
         type: "paragraph",
         content:
