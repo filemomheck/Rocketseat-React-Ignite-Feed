@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import Header from "./Components/Header";
 import Sidebar from "./Components/Sidebar";
 import styles from "./App.module.css";
@@ -37,7 +36,7 @@ const posts = [
       {
         type: "paragraph",
         content:
-          "Acabei de subir mais um projeto no meu GitHub. É um projeto que estou trabalhando no curso da Rocketseat. O nome do projeto é Ignite Feed, e estamos utilizando o React!",
+          "A algum tempo Acabei de subir mais um projeto no meu GitHub. É um projeto que estou trabalhando no curso da Rocketseat. O nome do projeto é Ignite Feed, e estamos utilizando o React!",
       },
       { type: "link", content: "👉 jane.design/doctorcare" },
     ],
@@ -64,6 +63,8 @@ export default function App() {
           {posts.map((post) => {
             return (
               <Post
+                // Informação do Post que poderá fornecer uma identificação:
+                key={post.id}
                 author={post.author}
                 content={post.content}
                 publishedAt={post.publishedAt}
