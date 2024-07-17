@@ -48,6 +48,16 @@ export default function Post({ author, publishedAt, content }) {
     setNewCommentText(event.target.value);
   }
 
+  function deleteComment(commentToDelete) {
+    // Retornando um novo array sem o comentário a ser deletado.
+    const commentsWithoutDeletedOne = comments.filter((comment) => {
+      return comment != commentToDelete;
+    });
+
+    // Imutabilidade -> As variáveis não sofrem mutação. Criamos um novo valor.
+    setComments(commentsWithoutDeletedOne);
+  }
+
   return (
     <article className={styles.post}>
       <header className={styles.postHeader}>
@@ -100,7 +110,13 @@ export default function Post({ author, publishedAt, content }) {
 
       <div className={styles.commentList}>
         {comments.map((comment) => {
-          return <Comment key={comment} content={comment} />;
+          return (
+            <Comment
+              key={comment}
+              content={comment}
+              onDeleteComment={deleteComment}
+            />
+          );
         })}
       </div>
     </article>
